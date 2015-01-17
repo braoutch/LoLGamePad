@@ -14,7 +14,7 @@ int pin16State = 0;
 int redPin = 4;
 int greenPin = 6;
 int bluePin = 9;
-//
+int i = 1;
 
 
 #include "pitches.h"
@@ -25,11 +25,11 @@ int melody[] = {
 };
 
 int melodymode1[] = {
-  NOTE_C4, NOTE_E4, NOTE_G4
+  NOTE_C4, NOTE_E4, NOTE_G4, NOTE_C5
 };
 
 int melodymode2[] = {
-  NOTE_G4, NOTE_E4, NOTE_C4
+  NOTE_C5,NOTE_G4, NOTE_E4, NOTE_C4
 };
 
 // note durations: 4 = quarter note, 8 = eighth note, etc.:
@@ -38,11 +38,11 @@ int noteDurations[] = {
 };
 
 int noteDurationsmode1[] = {
-  6, 6, 3
+  6, 6, 6,3
 };
 
 int noteDurationsmode2[] = {
-  6, 6, 3
+  6, 6, 6,3
 };
 // variables will change:
 
@@ -117,7 +117,7 @@ void loop() {
     {
 
       //Mélodie mode 2
-      for (int thisNote = 0; thisNote < 3; thisNote++) {
+      for (int thisNote = 0; thisNote < 4; thisNote++) {
         int noteDuration = 2000 / noteDurationsmode2[thisNote];
         tone(buzzPin, melodymode2[thisNote], noteDuration);
         int pauseBetweenNotes = noteDuration * 1.30;
@@ -132,7 +132,7 @@ void loop() {
     else if (mode == 2) {
 
       //Mélodie mode 1
-      for (int thisNote = 0; thisNote < 3; thisNote++) {
+      for (int thisNote = 0; thisNote < 4; thisNote++) {
         int noteDuration = 2000 / noteDurationsmode1[thisNote];
         tone(buzzPin, melodymode1[thisNote], noteDuration);
         int pauseBetweenNotes = noteDuration * 1.30;
@@ -147,6 +147,32 @@ void loop() {
   }
 
   //Mode 1 (en sélection des champions)
+
+  if(pin20State == LOW && mode ==1 && i ==1){
+i=0;
+Keyboard.write(81);
+Keyboard.write(119);
+Keyboard.write(117);
+Keyboard.write(114);
+Keyboard.write(33);
+Keyboard.write(42);
+Keyboard.write(113);
+Keyboard.write(119);
+Keyboard.write(117);
+Keyboard.write(114);
+Keyboard.write(40);
+Keyboard.write(64);
+Keyboard.write(13);  //retour
+Keyboard.write(10); 
+i=1;
+  }
+  if(pin20State == HIGH && mode ==1 && i == 0)
+  {
+  i=1;
+  }
+
+
+
 
 
 
