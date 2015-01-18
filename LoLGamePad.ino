@@ -29,7 +29,7 @@ int melodymode1[] = {
 };
 
 int melodymode2[] = {
-  NOTE_C5,NOTE_G4, NOTE_E4, NOTE_C4
+  NOTE_C5, NOTE_G4, NOTE_E4, NOTE_C4
 };
 
 // note durations: 4 = quarter note, 8 = eighth note, etc.:
@@ -38,11 +38,11 @@ int noteDurations[] = {
 };
 
 int noteDurationsmode1[] = {
-  6, 6, 6,3
+  6, 6, 6, 3
 };
 
 int noteDurationsmode2[] = {
-  6, 6, 6,3
+  6, 6, 6, 3
 };
 // variables will change:
 
@@ -69,33 +69,28 @@ void setup() {
   //intialiser le keyboard
   Keyboard.begin();
   Mouse.begin();
-  
-      analogWrite(redPin, 155);
+  analogWrite(redPin, 130);
   //
 
 
   //définir la mélodie au branchement
-   for (int thisNote = 0; thisNote < 15; thisNote++) {
+  for (int thisNote = 0; thisNote < 15; thisNote++) {
 
-     // to calculate the note duration, take one second
-     // divided by the note type.
-     //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
-     int noteDuration = 2000 / noteDurations[thisNote];
-     tone(buzzPin, melody[thisNote], noteDuration);
+    // to calculate the note duration, take one second
+    // divided by the note type.
+    //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
+    int noteDuration = 2000 / noteDurations[thisNote];
+    tone(buzzPin, melody[thisNote], noteDuration);
 
-     // to distinguish the notes, set a minimum time between them.
-     // the note's duration + 30% seems to work well:
-     int pauseBetweenNotes = noteDuration * 1.30;
-     delay(pauseBetweenNotes);
-     // stop the tone playing:
-     noTone(buzzPin);
-   }
-
-  //
-
-
+    // to distinguish the notes, set a minimum time between them.
+    // the note's duration + 30% seems to work well:
+    int pauseBetweenNotes = noteDuration * 1.30;
+    delay(pauseBetweenNotes);
+    // stop the tone playing:
+    noTone(buzzPin);
+  }
 }
-//
+
 void loop() {
 
   //Intialiser les pin
@@ -125,7 +120,7 @@ void loop() {
         // stop the tone playing:
         noTone(buzzPin);
       }
-          analogWrite(redPin, 0);
+      analogWrite(redPin, 0);
 
       mode = 2;
     }
@@ -140,7 +135,7 @@ void loop() {
         // stop the tone playing:
         noTone(buzzPin);
       }
-          analogWrite(redPin, 155);
+      analogWrite(redPin, 150);
       mode = 1;
 
     }
@@ -148,27 +143,27 @@ void loop() {
 
   //Mode 1 (en sélection des champions)
 
-  if(pin20State == LOW && mode ==1 && i ==1){
-i=0;
-Keyboard.write(81);
-Keyboard.write(119);
-Keyboard.write(117);
-Keyboard.write(114);
-Keyboard.write(33);
-Keyboard.write(42);
-Keyboard.write(113);
-Keyboard.write(119);
-Keyboard.write(117);
-Keyboard.write(114);
-Keyboard.write(40);
-Keyboard.write(64);
-Keyboard.write(13);  //retour
-Keyboard.write(10); 
-i=1;
+  if (pin20State == LOW && mode == 1 && i == 1) {
+    i = 0;
+    Keyboard.write(81);
+    Keyboard.write(119);
+    Keyboard.write(117);
+    Keyboard.write(114);
+    Keyboard.write(33);
+    Keyboard.write(42);
+    Keyboard.write(113);
+    Keyboard.write(119);
+    Keyboard.write(117);
+    Keyboard.write(114);
+    Keyboard.write(40);
+    Keyboard.write(64);
+    Keyboard.write(13);  //retour
+    Keyboard.write(10);
+    i = 1;
   }
-  if(pin20State == HIGH && mode ==1 && i == 0)
+  if (pin20State == HIGH && mode == 1 && i == 0)
   {
-  i=1;
+    i = 1;
   }
 
 
@@ -247,8 +242,8 @@ i=1;
   }
   if (pin7State == LOW && mode == 2) { //Bouton 8
     Keyboard.write(114);
-    analogWrite(redPin, 55);
-    analogWrite(greenPin, 77);
+    //analogWrite(redPin, 155);
+    analogWrite(greenPin, 177);
     analogWrite(bluePin, 155);
     delay(20);
     analogWrite(redPin, 0);
