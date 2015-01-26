@@ -1,6 +1,6 @@
 // set pin numbers:
 const int buzzPin =  3;
-int mode = 1;
+int mode = 2;
 int pin2State = 0;
 int pin4State = 0;
 int pin18State = 0;
@@ -118,7 +118,6 @@ void setup() {
 }
 
 void loop() {
-
   //Intialiser les pin
   pin2State = digitalRead(2);
   pin4State = digitalRead(5);
@@ -132,40 +131,40 @@ void loop() {
   pin16State = digitalRead(16);
 
   //Joystick
- joystickX = analogRead(A2);
- joystickY = analogRead(A3);
+  joystickX = analogRead(A2);
+  joystickY = analogRead(A3);
 
- /* if (j > 1000)
-  {
-    joystickX = analogRead(A2);
-    joystickY = analogRead(A3);
-    //Example Joystick
-    if (joystickX < 300)  //BAS
-    { 
-      Serial.print("BAS");
-      Serial.print(" - ");
-    }
-    if (joystickY < 300)  // GAUCHE
-    { 
-    Serial.print("GAUCHE");
-    Serial.print(" - ");
-    }
+  /* if (j > 1000)
+   {
+     joystickX = analogRead(A2);
+     joystickY = analogRead(A3);
+     //Example Joystick
+     if (joystickX < 300)  //BAS
+     {
+       Serial.print("BAS");
+       Serial.print(" - ");
+     }
+     if (joystickY < 300)  // GAUCHE
+     {
+     Serial.print("GAUCHE");
+     Serial.print(" - ");
+     }
 
-    if (joystickX > 700) //HAUT
-    { 
-      Serial.print("HAUT");
-      Serial.print(" - ");
-    }
-    if (joystickY > 700) //DROIT
-    { 
-    Serial.print("DROITE");
-    Serial.print(" - ");
-    }
-      j = 0;
-  }
-  j += 1;
+     if (joystickX > 700) //HAUT
+     {
+       Serial.print("HAUT");
+       Serial.print(" - ");
+     }
+     if (joystickY > 700) //DROIT
+     {
+     Serial.print("DROITE");
+     Serial.print(" - ");
+     }
+       j = 0;
+   }
+   j += 1;
 
-*/
+  */
 
   //Changement de mode
   if (pin10State == LOW && pin19State == LOW && pin16State == LOW && pin7State == LOW )
@@ -280,89 +279,104 @@ void loop() {
 
 
   if (pin8State == LOW && mode == 2) { //Bouton 10
-    Keyboard.write(102);
-    delay(20);
+    Keyboard.press(102);
+    // delay(40);
+    Keyboard.release(102);
+
   }
 
   if (pin15State == LOW && mode == 2) { //Bouton 9
-    Keyboard.write(100);
-    delay(20);
+    Keyboard.press(100);
+    // delay(40);
+    Keyboard.release(100);
+
   }
 
   if (pin7State == LOW && mode == 2) { //Bouton 8
-    Keyboard.write(114);
+    Keyboard.press(114);
     //analogWrite(redPin, 155);
     analogWrite(greenPin, 177);
     analogWrite(bluePin, 155);
-    delay(40);
+    delay(20);
     analogWrite(redPin, 0);
     analogWrite(greenPin, 0);
     analogWrite(bluePin, 0);
+    Keyboard.release(114);
   }
   if (pin16State == LOW && mode == 2) { //Bouton 7
-    Keyboard.write(101);
+    Keyboard.press(101);
     analogWrite(bluePin, 155);
-    //analogWrite(buzzPin,15);
-    delay(40);
+    delay(20);
     analogWrite(bluePin, 0);
-    //analogWrite(buzzPin,0);
+    Keyboard.release(101);
 
   }
 
   if (pin19State == LOW && mode == 2) { //Bouton 6
-    Keyboard.write(119);
+    Keyboard.press(119);
     analogWrite(redPin, 155);
-    //analogWrite(buzzPin,235);
-    delay(40);
+    delay(20);
     analogWrite(redPin, 0);
-    //analogWrite(buzzPin,0);
+    Keyboard.release(119);
 
   }
 
   if (pin10State == LOW && mode == 2) { //Bouton 5
-    Keyboard.write(113);
+    Keyboard.press(113);
     analogWrite(greenPin, 77);
-    //analogWrite(buzzPin,75);
-    delay(40);
+    delay(20);
     analogWrite(greenPin, 0);
-    //analogWrite(buzzPin,0);
+    Keyboard.release(113);
   }
 
   if (pin2State == LOW && mode == 2) { //Bouton 4
-    Keyboard.write(52);
-    delay(20);
+    Keyboard.press(52);
+    //delay(40);
+    Keyboard.release(52);
+
   }
   if (pin4State == LOW && mode == 2) { //Bouton 3
-    Keyboard.write(103);
-    delay(20);
+    Keyboard.press(103);
+    //delay(40);
+    Keyboard.release(103);
   }
   if (pin18State == LOW && mode == 2) { //Bouton 2
-    Keyboard.write(50);
+    Keyboard.press(50);
     delay(20);
+    Keyboard.release(50);
   }
 
   if (pin14State == LOW && mode == 2) { //Bouton 1
-    Keyboard.write(49);
+    Keyboard.press(49);
     delay(20);
+    Keyboard.release(49);
   }
 
   if (joystickX < 300 && mode == 2)  //BAS
-    { 
-      Keyboard.write (98);
-    }
-    if (joystickY < 300 && mode == 2)  // GAUCHE
-    { 
-    Keyboard.write (51);
-    }
+  {
+    Keyboard.press (98);
+    //delay(40);
+    Keyboard.release (98);
+  }
+  if (joystickY < 300 && mode == 2)  // GAUCHE
+  {
+    Keyboard.press (51);
+    // delay(40);
+    Keyboard.release (51);
+  }
 
-    if (joystickX > 700 && mode == 2) //HAUT
-    { 
-     Keyboard.write (112);
-     delay(500);
-    }
-    if (joystickY > 700 && mode == 2) //DROIT
-    { 
-    Keyboard.write (9);
-    }
+  if (joystickX > 700 && mode == 2) //HAUT
+  {
+    Keyboard.press (112);
+    delay(500);
+    Keyboard.release (112);
+  }
+  if (joystickY > 700 && mode == 2) //DROIT
+  {
+    Keyboard.press (9);
+  }
+  else {
+    Keyboard.release(9);
+  }
 
 }
