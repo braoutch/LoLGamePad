@@ -18,6 +18,7 @@ int i = 1;
 int joystickX = 0;
 int joystickY = 0;
 int j = 1;
+int tabulation = 0;
 
 
 #include "pitches.h"
@@ -100,7 +101,7 @@ void setup() {
 
 
   //définir la mélodie au branchement
-  /*for (int thisNote = 0; thisNote < 15; thisNote++) {
+  for (int thisNote = 0; thisNote < 15; thisNote++) {
 
     // to calculate the note duration, take one second
     // divided by the note type.
@@ -114,7 +115,7 @@ void setup() {
     delay(pauseBetweenNotes);
     // stop the tone playing:
     noTone(buzzPin);
-  }*/
+  }
 }
 
 void loop() {
@@ -355,14 +356,20 @@ void loop() {
     Keyboard.write (51);
     }
 
-    if (joystickX > 700 && mode == 2) //HAUT
+   /* if (joystickX > 700 && mode == 2) //HAUT
     { 
      Keyboard.write (112);
      delay(500);
-    }
-    if (joystickY > 700 && mode == 2) //DROIT
+    }*/
+    if (joystickY > 700 && mode == 2 && tabulation == 0) //DROIT
     { 
-    Keyboard.write (9);
+    Keyboard.press (9);
+    tabulation = 1;
     }
-
+    else if(joystickY < 700 && tabulation == 1)
+    {
+    Keyboard.release(9);
+    tabulation = 0;
+    }
+    Serial.println('joystickX','joystickY');
 }
