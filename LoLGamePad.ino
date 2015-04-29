@@ -1,3 +1,4 @@
+
 // set pin numbers:
 const int buzzPin =  3;
 int mode = 1;
@@ -22,7 +23,6 @@ int tabulation = 0;
 
 
 #include "pitches.h"
-
 //mélodies
 int melody[] = {
   NOTE_CS4, NOTE_DS4, NOTE_F4, NOTE_G4, NOTE_GS4, NOTE_C5, NOTE_GS4, NOTE_G4, NOTE_DS5, NOTE_CS5, NOTE_C5, NOTE_CS5, NOTE_F4, NOTE_GS4, NOTE_AS4
@@ -339,13 +339,13 @@ void loop() {
   }
   if (pin18State == LOW && mode == 2) { //Bouton 2
     Keyboard.write(50);
-    delay(20);
+    delay(100);
   }
 
   if (pin14State == LOW && mode == 2) { //Bouton 1
-    Keyboard.write(49);
+    Keyboard.write (49);
     delay(20);
-  }
+    }
 
   if (joystickX < 300 && mode == 2)  //BAS
     { 
@@ -366,7 +366,7 @@ void loop() {
     Keyboard.press (9);
     tabulation = 1;
     }
-    else if(joystickY < 700 && tabulation == 1)
+    else if(joystickY < 700 && mode == 2 && tabulation == 1)
     {
     Keyboard.release(9);
     tabulation = 0;
