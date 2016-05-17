@@ -1,7 +1,9 @@
+int vladipin=0;
+int vladmode = 0;
 
 // set pin numbers:
 const int buzzPin =  3;
-int mode = 1;
+int pin0State = 0;
 int pin2State = 0;
 int pin4State = 0;
 int pin18State = 0;
@@ -12,6 +14,7 @@ int pin15State = 0;
 int pin10State = 0;
 int pin14State = 0;
 int pin16State = 0;
+int pin3State = 0;
 int redPin = 4;
 int greenPin = 6;
 int bluePin = 9;
@@ -20,6 +23,10 @@ int joystickX = 0;
 int joystickY = 0;
 int j = 1;
 int tabulation = 0;
+int joystickButton = 0;
+int back = 0;
+int self = 0;
+int oldMillis = 0;
 
 
 #include "pitches.h"
@@ -28,13 +35,6 @@ int melody[] = {
   NOTE_CS4, NOTE_DS4, NOTE_F4, NOTE_G4, NOTE_GS4, NOTE_C5, NOTE_GS4, NOTE_G4, NOTE_DS5, NOTE_CS5, NOTE_C5, NOTE_CS5, NOTE_F4, NOTE_GS4, NOTE_AS4
 };
 
-int melodymode1[] = {
-  NOTE_C4, NOTE_E4, NOTE_G4, NOTE_C5
-};
-
-int melodymode2[] = {
-  NOTE_C5, NOTE_G4, NOTE_E4, NOTE_C4
-};
 
 int melodyA[] = {
   NOTE_C4
@@ -74,6 +74,7 @@ void setup() {
   //Initialiser les pin des boutons pavec leur pullup resistance
   pinMode(2, INPUT_PULLUP);           // set pin to input with pullup resistance
   pinMode(5, INPUT_PULLUP);
+  pinMode(0, INPUT_PULLUP);
   pinMode(18, INPUT_PULLUP);
   pinMode(19, INPUT_PULLUP);
   pinMode(7, INPUT_PULLUP);
@@ -87,6 +88,7 @@ void setup() {
   pinMode(4, OUTPUT);
   pinMode(6, OUTPUT);
   pinMode(9, OUTPUT);
+  Serial.begin(115200);
 
 
 
@@ -101,26 +103,31 @@ void setup() {
 
 
   //définir la mélodie au branchement
-  for (int thisNote = 0; thisNote < 15; thisNote++) {
+  //for (int thisNote = 0; thisNote < 15; thisNote++) {
 
     // to calculate the note duration, take one second
     // divided by the note type.
     //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
-    int noteDuration = 2000 / noteDurations[thisNote];
-    tone(buzzPin, melody[thisNote], noteDuration);
+    //int noteDuration = 2000 / noteDurations[thisNote];
+    //tone(buzzPin, melody[thisNote], noteDuration);
 
     // to distinguish the notes, set a minimum time between them.
     // the note's duration + 30% seems to work well:
-    int pauseBetweenNotes = noteDuration * 1.30;
-    delay(pauseBetweenNotes);
+    //int pauseBetweenNotes = noteDuration * 1.30;
+    //delay(pauseBetweenNotes);
     // stop the tone playing:
-    noTone(buzzPin);
-  }
+    //noTone(buzzPin);
+  //}
+}
+
+void Laugh(){
+  Keyboard.write(76);
 }
 
 void loop() {
 
   //Intialiser les pin
+  pin0State = digitalRead(0);
   pin2State = digitalRead(2);
   pin4State = digitalRead(5);
   pin18State = digitalRead(18);
@@ -131,6 +138,7 @@ void loop() {
   pin10State = digitalRead(10);
   pin14State = digitalRead(14);
   pin16State = digitalRead(16);
+  pin3State = digitalRead(3);
 
   //Joystick
  joystickX = analogRead(A2);
@@ -146,7 +154,7 @@ void loop() {
       Serial.print("BAS");
       Serial.print(" - ");
     }
-    if (joystickY < 300)  // GAUCHE
+    if (joystickY < 500)  // GAUCHE
     { 
     Serial.print("GAUCHE");
     Serial.print(" - ");
@@ -167,46 +175,9 @@ void loop() {
   j += 1;
 
 */
-
-  //Changement de mode
-  if (pin10State == LOW && pin19State == LOW && pin16State == LOW && pin7State == LOW )
-  {
-    if (mode == 1)
-    {
-      mode = 2;
-
-      //Mélodie mode 2
-      for (int thisNote = 0; thisNote < 4; thisNote++) {
-        int noteDuration = 2000 / noteDurationsmode2[thisNote];
-        tone(buzzPin, melodymode2[thisNote], noteDuration);
-        int pauseBetweenNotes = noteDuration * 1.30;
-        delay(pauseBetweenNotes);
-        // stop the tone playing:
-        noTone(buzzPin);
-      }
-      analogWrite(redPin, 0);
-
-    }
-    else if (mode == 2) {
-      mode = 1;
-
-      //Mélodie mode 1
-      for (int thisNote = 0; thisNote < 4; thisNote++) {
-        int noteDuration = 2000 / noteDurationsmode1[thisNote];
-        tone(buzzPin, melodymode1[thisNote], noteDuration);
-        int pauseBetweenNotes = noteDuration * 1.30;
-        delay(pauseBetweenNotes);
-        // stop the tone playing:
-        noTone(buzzPin);
-      }
-      analogWrite(redPin, 150);
-
-    }
-  }
-
   //Mode 1 (en sélection des champions)
 
-  if (pin15State == LOW && mode == 1 && i == 1) {
+  if (pin0State == LOW && i == 1) {
     i = 0;
     Keyboard.write(81);
     Keyboard.write(119);
@@ -222,154 +193,153 @@ void loop() {
     Keyboard.write(64);
     Keyboard.write(13);  //retour
     Keyboard.write(10);
-    i = 1;
+    //i = 1;
   }
-  if (pin15State == HIGH && mode == 1 && i == 0)
+  
+  if (pin0State == HIGH && i == 0)
   {
     i = 1;
   }
 
-
-
-
-
-
-  if (pin14State == LOW && mode == 1) { //Bouton 1 : TOP
-    Mouse.click(MOUSE_LEFT);
-    Keyboard.write(116); //t
-    Keyboard.write(111); //o
-    Keyboard.write(112); //p
-    Keyboard.write(13);  //retour
-    Keyboard.write(10);  //chariot
-    delay(40);
-  }
-
-  if (pin18State == LOW && mode == 1) { //Bouton 2 : JUNGLE
-    Mouse.click(MOUSE_LEFT);
-    Keyboard.write(106); //j
-    Keyboard.write(117); //u
-    Keyboard.write(110); //n
-    Keyboard.write(103); //g
-    Keyboard.write(108); //l
-    Keyboard.write(101); //e
-    Keyboard.write(13);  //retour
-    Keyboard.write(10);  //chariot
-    delay(40);
-  }
-
-  if (pin4State == LOW && mode == 1) { //Bouton 3 : MID
-    Mouse.click(MOUSE_LEFT);
-    Keyboard.write(59); //m
-    Keyboard.write(105); //i
-    Keyboard.write(100); //d
-    Keyboard.write(13);  //retour
-    Keyboard.write(10);  //chariot
-    delay(40);
-  }
-
-  if (pin2State == LOW && mode == 1) { //Bouton 4 : ADC
-    Mouse.click(MOUSE_LEFT);
-    Keyboard.write(113); //a
-    Keyboard.write(100); //d
-    Keyboard.write(99); //c
-    Keyboard.write(13);  //retour
-    Keyboard.write(10);  //chariot
-    delay(40);
-  }
-
   //Mode 2 (en jeu)
-
-
-  if (pin8State == LOW && mode == 2) { //Bouton 10
+  if (pin8State == LOW) { //Bouton 10
     Keyboard.write(102);
     delay(20);
   }
 
-  if (pin15State == LOW && mode == 2) { //Bouton 9
+  if (pin15State == LOW) { //Bouton 9
     Keyboard.write(100);
     delay(20);
   }
 
-  if (pin7State == LOW && mode == 2) { //Bouton 8
+  if (pin7State == LOW) { //Bouton 8
     Keyboard.write(114);
     //analogWrite(redPin, 155);
     analogWrite(greenPin, 177);
     analogWrite(bluePin, 155);
-    delay(40);
+    delay(20);
     analogWrite(redPin, 0);
     analogWrite(greenPin, 0);
     analogWrite(bluePin, 0);
   }
-  if (pin16State == LOW && mode == 2) { //Bouton 7
+  if(vladmode == 0)
+  {
+    if (pin16State == LOW) { //Bouton 7
+    vladipin = 1;
     Keyboard.write(101);
     analogWrite(bluePin, 155);
-    //analogWrite(buzzPin,15);
-    delay(40);
+    delay(20);
     analogWrite(bluePin, 0);
-    //analogWrite(buzzPin,0);
-
+    }
   }
 
-  if (pin19State == LOW && mode == 2) { //Bouton 6
+  if(vladmode == 1)
+  {
+    if (pin16State == LOW) { //Bouton 7
+      vladipin = 1;
+      Keyboard.press(101);
+      analogWrite(bluePin, 155);
+      delay(20);
+    }
+
+   if
+   (pin16State == HIGH && vladipin == 1) { //Bouton 7
+    vladipin = 0;
+    Keyboard.release(101);
+    delay(20);
+    analogWrite(bluePin, 0);
+  }
+  }
+
+  if (pin19State == LOW) { //Bouton 6
     Keyboard.write(119);
     analogWrite(redPin, 155);
     //analogWrite(buzzPin,235);
-    delay(40);
+    delay(20);
     analogWrite(redPin, 0);
     //analogWrite(buzzPin,0);
 
   }
 
-  if (pin10State == LOW && mode == 2) { //Bouton 5
+  if (pin10State == LOW) { //Bouton 5
     Keyboard.write(113);
     analogWrite(greenPin, 77);
     //analogWrite(buzzPin,75);
-    delay(40);
+    delay(20);
     analogWrite(greenPin, 0);
     //analogWrite(buzzPin,0);
   }
 
-  if (pin2State == LOW && mode == 2) { //Bouton 4
+  if (pin2State == LOW) { //Bouton 4
     Keyboard.write(52);
     delay(20);
   }
-  if (pin4State == LOW && mode == 2) { //Bouton 3
+  if (pin4State == LOW) { //Bouton 3
     Keyboard.write(103);
     delay(20);
   }
-  if (pin18State == LOW && mode == 2) { //Bouton 2
+  if (pin18State == LOW) { //Bouton 2
     Keyboard.write(50);
-    delay(100);
+    delay(20);
   }
 
-  if (pin14State == LOW && mode == 2) { //Bouton 1
+  if (pin14State == LOW) { //Bouton 1
     Keyboard.write (49);
     delay(20);
     }
 
-  if (joystickX < 300 && mode == 2)  //BAS
+  if (joystickX < 300 && back == 0)  //BACK
     { 
       Keyboard.write (98);
+      delay(20);
+      back = 1;
     }
-    if (joystickY < 300 && mode == 2)  // GAUCHE
+    
+    if (joystickX > 300 && back == 1)  //BACK
     { 
-    Keyboard.write (51);
+      back = 0;
+      delay(20);
     }
 
-   /* if (joystickX > 700 && mode == 2) //HAUT
+    if (joystickY < 300)  // item 3
     { 
-     Keyboard.write (112);
-     delay(500);
-    }*/
-    if (joystickY > 700 && mode == 2 && tabulation == 0) //DROIT
+    Keyboard.write (51);
+    delay(20);
+    }
+    
+    if (joystickX > 800 && self == 0)  // Space
+    { 
+    Keyboard.press (32);
+    self = 1;
+    delay(20);
+    }
+
+    else if(joystickX < 700 && self == 1)
+    { 
+    Keyboard.release (32);
+    self = 0;
+    delay(20);
+    }
+    
+    if (joystickY > 900 && tabulation == 0) //TAB
     { 
     Keyboard.press (9);
     tabulation = 1;
+        delay(20);
     }
-    else if(joystickY < 700 && mode == 2 && tabulation == 1)
+    else if(joystickY < 700 && tabulation == 1)
     {
     Keyboard.release(9);
     tabulation = 0;
+    delay(20);
     }
-    Serial.println('joystickX','joystickY');
+
+    
+    //Serial.println('joystickX','joystickY');
+    //Serial.print("joystickX : ");
+    //Serial.print(joystickX);
+    //Serial.print(" ; joystickY : ");
+    //Serial.println(joystickY);
+    
+
 }
