@@ -28,48 +28,6 @@ int back = 0;
 int self = 0;
 int oldMillis = 0;
 
-
-#include "pitches.h"
-//mélodies
-int melody[] = {
-  NOTE_CS4, NOTE_DS4, NOTE_F4, NOTE_G4, NOTE_GS4, NOTE_C5, NOTE_GS4, NOTE_G4, NOTE_DS5, NOTE_CS5, NOTE_C5, NOTE_CS5, NOTE_F4, NOTE_GS4, NOTE_AS4
-};
-
-
-int melodyA[] = {
-  NOTE_C4
-};
-int melodyZ[] = {
-  NOTE_E4
-};
-int melodyE[] = {
-  NOTE_G4
-};
-int melodyR[] = {
-  NOTE_C5
-};
-
-
-
-
-
-
-
-
-// note durations: 4 = quarter note, 8 = eighth note, etc.:
-int noteDurations[] = {
-  9, 24, 2, 6, 6, 3, 6, 6, 3, 9, 24, 2, 12, 12, 3
-};
-
-int noteDurationsmode1[] = {
-  6, 6, 6, 3
-};
-
-int noteDurationsmode2[] = {
-  6, 6, 6, 3
-};
-// variables will change:
-
 void setup() {
   //Initialiser les pin des boutons pavec leur pullup resistance
   pinMode(2, INPUT_PULLUP);           // set pin to input with pullup resistance
@@ -89,9 +47,8 @@ void setup() {
   pinMode(6, OUTPUT);
   pinMode(9, OUTPUT);
   Serial.begin(115200);
-
-
-
+  //Serial.baud();
+   
   //Initialiser le buzzer
   pinMode(buzzPin, OUTPUT);
 
@@ -99,25 +56,6 @@ void setup() {
   Keyboard.begin();
   Mouse.begin();
   analogWrite(redPin, 130);
-  //
-
-
-  //définir la mélodie au branchement
-  //for (int thisNote = 0; thisNote < 15; thisNote++) {
-
-    // to calculate the note duration, take one second
-    // divided by the note type.
-    //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
-    //int noteDuration = 2000 / noteDurations[thisNote];
-    //tone(buzzPin, melody[thisNote], noteDuration);
-
-    // to distinguish the notes, set a minimum time between them.
-    // the note's duration + 30% seems to work well:
-    //int pauseBetweenNotes = noteDuration * 1.30;
-    //delay(pauseBetweenNotes);
-    // stop the tone playing:
-    //noTone(buzzPin);
-  //}
 }
 
 void Laugh(){
@@ -126,6 +64,11 @@ void Laugh(){
 
 void loop() {
 
+  Serial.println("206IM THE CLAW");
+  if(Serial.available() > 0)
+  {
+  Serial.print("#Je t'entend");
+  }
   //Intialiser les pin
   pin0State = digitalRead(0);
   pin2State = digitalRead(2);
@@ -143,59 +86,7 @@ void loop() {
   //Joystick
  joystickX = analogRead(A2);
  joystickY = analogRead(A3);
-
- /* if (j > 1000)
-  {
-    joystickX = analogRead(A2);
-    joystickY = analogRead(A3);
-    //Example Joystick
-    if (joystickX < 300)  //BAS
-    { 
-      Serial.print("BAS");
-      Serial.print(" - ");
-    }
-    if (joystickY < 500)  // GAUCHE
-    { 
-    Serial.print("GAUCHE");
-    Serial.print(" - ");
-    }
-
-    if (joystickX > 700) //HAUT
-    { 
-      Serial.print("HAUT");
-      Serial.print(" - ");
-    }
-    if (joystickY > 700) //DROIT
-    { 
-    Serial.print("DROITE");
-    Serial.print(" - ");
-    }
-      j = 0;
-  }
-  j += 1;
-
-*/
-  //Mode 1 (en sélection des champions)
-
-  if (pin0State == LOW && i == 1) {
-    i = 0;
-    Keyboard.write(81);
-    Keyboard.write(119);
-    Keyboard.write(117);
-    Keyboard.write(114);
-    Keyboard.write(33);
-    Keyboard.write(42);
-    Keyboard.write(113);
-    Keyboard.write(119);
-    Keyboard.write(117);
-    Keyboard.write(114);
-    Keyboard.write(40);
-    Keyboard.write(64);
-    Keyboard.write(13);  //retour
-    Keyboard.write(10);
-    //i = 1;
-  }
-  
+ 
   if (pin0State == HIGH && i == 0)
   {
     i = 1;
@@ -333,13 +224,27 @@ void loop() {
     tabulation = 0;
     delay(20);
     }
-
     
     //Serial.println('joystickX','joystickY');
     //Serial.print("joystickX : ");
     //Serial.print(joystickX);
     //Serial.print(" ; joystickY : ");
     //Serial.println(joystickY);
-    
-
 }
+
+void readserial(){
+  // check if serial command begin by # else drop the char
+  if (Serial.peek() != '#' && Serial.available() > 0 )
+    {
+      char a=Serial.read();
+    }
+
+  if (Serial.peek() == '#' && Serial.available() > 0) { 
+   // x = Serial.parseInt();
+   // L = Serial.parseInt();
+   // R = Serial.parseInt();
+   // T = Serial.parseInt();
+
+    //delay(100); // because it's better with delay ( yes, seem strange) 
+    //pending_serial_input= true; 
+  }}
