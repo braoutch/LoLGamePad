@@ -1,0 +1,23 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{175F61DB-9106-5DE8-FFD7-43E3D4A0784D}") = "LoL GamePad Companion", "Assembly-CSharp.csproj", "{B3C009F3-466C-2CB0-B782-722160C64A32}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B3C009F3-466C-2CB0-B782-722160C64A32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3C009F3-466C-2CB0-B782-722160C64A32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3C009F3-466C-2CB0-B782-722160C64A32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3C009F3-466C-2CB0-B782-722160C64A32}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal

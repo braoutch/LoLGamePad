@@ -11,6 +11,7 @@ public class ArduinoAutoDetect : MonoBehaviour
 	public List<SerialPort> serialPortList = new List<SerialPort> ();
 	//Every SerialPort we can open
 	int closedPorts = 0;
+	public static bool detected = false;
 	private string code = "206";
 	SerialPort monSerialPort;
 
@@ -49,6 +50,7 @@ public class ArduinoAutoDetect : MonoBehaviour
 				stream.Open ();
 				if (WhichSerialPortAreU (stream, arduinoCode)) {
 					return stream;
+					detected = true;
 				}
 			} catch (Exception e) {
 				closedPorts++;
@@ -98,8 +100,8 @@ public class ArduinoAutoDetect : MonoBehaviour
 		return  monSerialPort.ReadLine ().Substring (3);
 	}
 
-	void OnApplicationQuit ()
-	{
-		monSerialPort.Close ();
-	}
+	//void OnApplicationQuit ()
+	//{
+	//	monSerialPort.Close ();
+	//}
 }
